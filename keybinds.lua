@@ -93,6 +93,10 @@ globalkeys = gears.table.join(
         { description = "run rofi", group = "launcher" }
     ),
 
+    awful.key({ keys.super }, "v", function() awful.spawn("copyq show") end,
+        { description = "show clipboard", group = "launcher" }
+    ),
+
 
     awful.key({ keys.super }, "x",
         function()
