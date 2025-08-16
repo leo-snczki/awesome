@@ -87,8 +87,12 @@ globalkeys = gears.table.join(
         { description = "restore minimized", group = "client" }),
 
     -- Prompt
-    awful.key({ keys.super }, "r", function() awful.screen.focused().mypromptbox:run() end,
+    awful.key({ keys.super, keys.alt }, "r", function() awful.screen.focused().mypromptbox:run() end,
         { description = "run prompt", group = "launcher" }),
+    awful.key({ keys.super }, "r", function() awful.spawn("rofi -show drun -show-icons") end,
+        { description = "run rofi", group = "launcher" }
+    ),
+
 
     awful.key({ keys.super }, "x",
         function()
@@ -214,4 +218,3 @@ clientbuttons = gears.table.join(
 )
 
 return root.keys(globalkeys)
-
