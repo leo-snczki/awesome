@@ -27,7 +27,7 @@ globalkeys = gears.table.join(
         end,
         { description = "focus previous by index", group = "client" }
     ),
-    awful.key({ keys.super, }, "w", function() mymainmenu:show() end,
+    awful.key({ keys.super, keys.ctrl }, "w", function() mymainmenu:show() end,
         { description = "show main menu", group = "awesome" }),
 
     -- Layout manipulation
