@@ -86,6 +86,23 @@ globalkeys = gears.table.join(
         end,
         { description = "restore minimized", group = "client" }),
 
+    -- Audio
+
+    awful.key({}, "XF86AudioPrev", function() awful.spawn("playerctl previous") end,
+        { description = "Previous track" }),
+    awful.key({}, "XF86AudioNext", function() awful.spawn("playerctl next") end,
+        { description = "Next track" }),
+    awful.key({}, "XF86AudioPlay", function() awful.spawn("playerctl play-pause") end,
+        { description = "Play/Pause media" }),
+    awful.key({}, "XF86AudioStop", function() awful.spawn("playerctl stop") end,
+        { description = "Stop media" }),
+    awful.key({}, "XF86AudioLowerVolume", function() awful.spawn("wpctl set-volume @DEFAULT_SINK@ 5%-") end,
+        { description = "Lower volume" }),
+    awful.key({}, "XF86AudioRaiseVolume", function() awful.spawn("wpctl set-volume @DEFAULT_SINK@ 5%+") end,
+        { description = "Raise volume" }),
+    awful.key({}, "XF86AudioMute", function() awful.spawn("wpctl set-mute @DEFAULT_SINK@ toggle") end,
+        { description = "Mute volume" }),
+
     -- Prompt
     awful.key({ keys.super, keys.alt }, "r", function() awful.screen.focused().mypromptbox:run() end,
         { description = "run prompt", group = "launcher" }),
