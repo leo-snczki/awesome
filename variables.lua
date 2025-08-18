@@ -1,11 +1,18 @@
-local gears = require("gears")
 local awful = require("awful")
 local beautiful = require("beautiful")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+local themes = {
+    "default", -- 1
+    "sky",
+    "zenburn",
+}
 
+local chosen_theme = themes[3]
+-- {{{ Variable definitions
+-- Themes define colours, icons, font and wallpapers.
+beautiful.init(string.format("%s/.dotfiles/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
 -- This is used later as the default terminal and editor to run.
 terminal = "kitty"
 editor = os.getenv("EDITOR") or "nano"
