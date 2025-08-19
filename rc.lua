@@ -253,6 +253,11 @@ client.connect_signal("request::titlebars", function(c)
     }
 end)
 
+-- Gap
+
+beautiful.useless_gap = 7
+beautiful.gap_single_client = true
+
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
     c:emit_signal("request::activate", "mouse_enter", { raise = false })
