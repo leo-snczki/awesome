@@ -19,10 +19,10 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 require("awful.hotkeys_popup.keys")
 
 require("autostart")
-require("keyboard")
+require("hotkeys.keyboard")
 require("variables")
 require("rules")
-require("mouse")
+require("hotkeys.mouse")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to

@@ -3,7 +3,7 @@ local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local menubar = require("menubar")
 
-keys = require("keys")
+keys = require("hotkeys.keys")
 
 globalkeys = gears.table.join(
     awful.key({ keys.super, }, "s", hotkeys_popup.show_help,
