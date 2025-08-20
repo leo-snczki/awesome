@@ -10,10 +10,6 @@ require("awful.autofocus")
 -- Theme handling library
 local beautiful = require("beautiful")
 
-local hotkeys_popup = require("awful.hotkeys_popup")
--- Enable hotkeys help widget for VIM and other apps
--- when client with a matching name is opened:
-require("awful.hotkeys_popup.keys")
 require("error_handler")
 require("autostart")
 require("hotkeys.keyboard")
@@ -21,23 +17,7 @@ require("variables")
 require("rules")
 require("hotkeys.mouse")
 require("signals")
-
-
--- {{{ Menu
--- Create a launcher widget and a main menu
-myawesomemenu = {
-    { "hotkeys",     function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
-    { "manual",      terminal .. " -e man awesome" },
-    { "edit config", editor_cmd .. " " .. awesome.conffile },
-    { "restart",     awesome.restart },
-    { "quit",        function() awesome.quit() end },
-}
-
-mymainmenu = awful.menu({
-    items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-        { "open terminal", terminal }
-    }
-})
+require("menu")
 
 
 local function set_wallpaper(s)
