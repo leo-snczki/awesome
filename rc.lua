@@ -7,6 +7,8 @@ local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
 
+local bar = require("bar")
+
 -- Theme handling library
 local beautiful = require("beautiful")
 
@@ -41,6 +43,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Each screen has its own tag table.
     awful.tag({ "1", "2", "3", "4", "5", "6", "7", "8", "9" }, s, awful.layout.layouts[1])
+    bar.setup(s)
 end)
 -- }}}
 
@@ -48,4 +51,3 @@ end)
 
 beautiful.useless_gap = 7
 beautiful.gap_single_client = true
-
