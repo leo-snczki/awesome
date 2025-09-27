@@ -8,3 +8,7 @@ awful.util.spawn_with_shell("xrandr --output eDP-1 --mode 1920x1080 --pos 0x360 
 
 -- wacom only on hdmi
 awful.util.spawn_with_shell("xinput map-to-output 14 HDMI-1") -- Check the id with xinput | grep "stylus"
+
+awful.util.spawn_with_shell("xsetwacom --set 14 Button 2 'pan'")
+
+awful.util.spawn_with_shell("xsetwacom --set 14 'PanScrollThreshold' 200")
