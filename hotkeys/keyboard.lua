@@ -86,6 +86,16 @@ globalkeys = gears.table.join(
         end,
         { description = "restore minimized", group = "client" }),
 
+    -- Printscreen
+    awful.key({}, "Print", function() awful.spawn("rofi-screenshot") end,
+        { description = "Printscreen", group = "rofi" }),
+    awful.key({keys.super}, "Print", function() awful.spawn("rofi-screenshot -s") end,
+        { description = "Stop recording", group = "rofi" }),
+    
+    -- Emoji
+    awful.key({keys.super}, ".", function() awful.spawn("rofimoji") end,
+        { description = "Show emoji list", group = "rofi" }),
+
     -- Audio
 
     awful.key({}, "XF86AudioPrev", function() awful.spawn("playerctl previous") end,
