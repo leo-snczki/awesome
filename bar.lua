@@ -26,7 +26,8 @@ local tasklist_buttons = gears.table.join(
         if c == client.focus then
             c.minimized = true
         else
-            c:emit_signal("request::activate", "tasklist", { raise = true })
+            -- Switches to its tag when it is on one that isn't selected.
+            c:jump_to()
         end
     end),
     awful.button({}, 3, function() awful.menu.client_list({ theme = { width = dpi(250) } }) end),
@@ -103,7 +104,7 @@ function bar.setup(s)
         },
     }
 
-    -- Windows of this screen's selected tags.
+    -- Windows of every tag of this screen.
     s.mybottomwibox = awful.wibar({ position = "bottom", screen = s, height = dpi(28) })
 
     s.mybottomwibox:setup {

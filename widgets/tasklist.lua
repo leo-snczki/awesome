@@ -94,7 +94,7 @@ end
 function tasklist.new(s, buttons)
     return awful.widget.tasklist {
         screen = s,
-        filter = awful.widget.tasklist.filter.currenttags,
+        filter = awful.widget.tasklist.filter.alltags,
         buttons = buttons,
         style = {
             bg_minimize = beautiful.bg_minimize or beautiful.bg_normal,
@@ -117,13 +117,13 @@ function tasklist.new(s, buttons)
             create_callback = function(self, c)
                 self.client = c
                 self:get_children_by_id("clienticon")[1].client = c
-                -- Minimized clients are shown dimmed.
-                self.opacity = c.minimized and 0.4 or 1
+                -- Minimized clients and clients of other tags are shown dimmed.
+                self.opacity = c:isvisible() and 1 or 0.4
                 self:connect_signal("mouse::enter", function() show_preview(self.client, mouse.current_widget_geometry) end)
                 self:connect_signal("mouse::leave", hide_preview)
             end,
             update_callback = function(self, c)
-                self.opacity = c.minimized and 0.4 or 1
+                self.opacity = c:isvisible() and 1 or 0.4
                 self.client = c
             end,
         },
