@@ -1,6 +1,6 @@
 -- Icon-only tasklist. Hovering a client shows a popup with its title and a
--- live thumbnail of the window (or its icon when the window isn't visible,
--- since an unmapped window has no content to grab).
+-- live thumbnail of the window (just the title when the window is minimized
+-- or on another tag, since an unmapped window has no content to grab).
 local awful = require("awful")
 local gears = require("gears")
 local wibox = require("wibox")
@@ -34,6 +34,7 @@ local function get_preview()
                         resize = true,
                         widget = wibox.widget.imagebox,
                     },
+                    id = "thumbarea",
                     halign = "center",
                     valign = "center",
                     forced_width = THUMB_W,
@@ -55,32 +56,31 @@ local function get_preview()
     return preview
 end
 
+-- c.content is an X surface without a size, which imagebox can't handle,
+-- so paint it scaled down into an image surface. Nothing is kept.
+local function thumbnail(c)
+    local geo = c:geometry()
+    local scale = math.min(THUMB_W / geo.width, THUMB_H / geo.height)
+    local img = cairo.ImageSurface(cairo.Format.RGB24,
+        math.floor(geo.width * scale), math.floor(geo.height * scale))
+    local cr = cairo.Context(img)
+    cr:scale(scale, scale)
+    cr:set_source_surface(gears.surface(c.content), 0, 0)
+    cr:paint()
+    return img
+end
+
 local function show_preview(c, anchor)
     local p = get_preview()
     local title = p.widget:get_children_by_id("title")[1]
     local thumb = p.widget:get_children_by_id("thumb")[1]
+    local thumbarea = p.widget:get_children_by_id("thumbarea")[1]
 
     title:set_text(c.name or c.class or "")
 
-    if c:isvisible() and not c.minimized then
-        -- c.content is an X surface without a size, which imagebox can't
-        -- handle, so paint it scaled down into an image surface.
-        local geo = c:geometry()
-        local scale = math.min(THUMB_W / geo.width, THUMB_H / geo.height)
-        local w, h = math.floor(geo.width * scale), math.floor(geo.height * scale)
-        local img = cairo.ImageSurface(cairo.Format.RGB24, w, h)
-        local cr = cairo.Context(img)
-        cr:scale(scale, scale)
-        cr:set_source_surface(gears.surface(c.content), 0, 0)
-        cr:paint()
-        thumb.image = img
-        thumb.forced_width = w
-        thumb.forced_height = h
-    else
-        thumb.image = c.icon
-        thumb.forced_width = dpi(64)
-        thumb.forced_height = dpi(64)
-    end
+    local img = c:isvisible() and not c.minimized and thumbnail(c) or nil
+    thumb.image = img
+    thumbarea.visible = img ~= nil
 
     p.screen = c.screen
     p:move_next_to(anchor)

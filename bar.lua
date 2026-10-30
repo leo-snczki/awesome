@@ -93,15 +93,23 @@ function bar.setup(s)
             separator(),
             appmenu.new(s),
             s.mypromptbox,
-            separator(),
         },
-        s.mytasklist, -- Middle
+        nil, -- Middle
         { -- Right
             layout = wibox.layout.fixed.horizontal,
             separator(),
             systray,
             clock,
         },
+    }
+
+    -- Windows of this screen's selected tags.
+    s.mybottomwibox = awful.wibar({ position = "bottom", screen = s, height = dpi(28) })
+
+    s.mybottomwibox:setup {
+        s.mytasklist,
+        halign = "center",
+        widget = wibox.container.place,
     }
 end
 
