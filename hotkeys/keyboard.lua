@@ -3,6 +3,8 @@ local awful = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local menubar = require("menubar")
 
+local revelation = require("revelation")
+
 local keys = require("hotkeys.keys")
 
 globalkeys = gears.table.join(
@@ -41,7 +43,9 @@ globalkeys = gears.table.join(
         { description = "focus the previous screen", group = "screen" }),
     awful.key({ keys.super, }, "u", awful.client.urgent.jumpto,
         { description = "jump to urgent client", group = "client" }),
-    awful.key({ keys.super, }, "Tab",
+    awful.key({ keys.super, }, "Tab", function() revelation({ curr_tag_only = true }) end,
+        { description = "show open windows in a grid", group = "client" }),
+    awful.key({ keys.alt, }, "Tab",
         function()
             awful.client.focus.history.previous()
             if client.focus then
@@ -85,6 +89,31 @@ globalkeys = gears.table.join(
             end
         end,
         { description = "restore minimized", group = "client" }),
+
+    -- Like Windows: minimize everything, press again to bring it back.
+    awful.key({ keys.super }, "d",
+        function()
+            local s = awful.screen.focused()
+            local visible = {}
+            for _, c in ipairs(s.clients) do
+                if not c.minimized then table.insert(visible, c) end
+            end
+
+            if #visible > 0 then
+                s.desktop_hidden = { clients = visible, focus = client.focus }
+                for _, c in ipairs(visible) do c.minimized = true end
+            elseif s.desktop_hidden then
+                for _, c in ipairs(s.desktop_hidden.clients) do
+                    if c.valid then c.minimized = false end
+                end
+                local c = s.desktop_hidden.focus
+                if c and c.valid then
+                    c:emit_signal("request::activate", "key.unminimize", { raise = true })
+                end
+                s.desktop_hidden = nil
+            end
+        end,
+        { description = "show desktop / restore", group = "client" }),
 
     -- Printscreen
     awful.key({}, "Print", function() awful.spawn("rofi-screenshot") end,

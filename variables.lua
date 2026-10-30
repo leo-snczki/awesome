@@ -13,6 +13,8 @@ local chosen_theme = themes[3]
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(string.format("%s/.dotfiles/awesome/themes/%s/theme.lua", os.getenv("HOME"), chosen_theme))
+-- Must run after beautiful.init()
+require("revelation").init()
 -- This is used later as the default terminal and editor to run.
 terminal = "kitty"
 editor = os.getenv("EDITOR") or "nano"
