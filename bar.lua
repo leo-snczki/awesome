@@ -6,6 +6,7 @@ local dpi = require("beautiful.xresources").apply_dpi
 
 local keys = require("hotkeys.keys")
 local appmenu = require("widgets.appmenu")
+local tasklist = require("widgets.tasklist")
 
 local bar = {}
 
@@ -79,21 +80,7 @@ function bar.setup(s)
 
     s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist_buttons)
 
-    -- Minimized clients are shown dimmed (and prefixed with "_").
-    s.mytasklist = awful.widget.tasklist {
-        screen = s,
-        filter = awful.widget.tasklist.filter.currenttags,
-        buttons = tasklist_buttons,
-        style = {
-            fg_minimize = beautiful.fg_minimize or "#7F7F6F",
-            bg_minimize = beautiful.bg_minimize or beautiful.bg_normal,
-        },
-        layout = {
-            spacing = dpi(4),
-            max_widget_size = dpi(200),
-            layout = wibox.layout.flex.horizontal,
-        },
-    }
+    s.mytasklist = tasklist.new(s, tasklist_buttons)
 
     s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(24) })
 
