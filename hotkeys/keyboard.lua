@@ -153,8 +153,8 @@ globalkeys = gears.table.join(
         { description = "show clipboard", group = "launcher" }
     ),
 
-        awful.key({ keys.super }, "e", function() awful.spawn("thunar") end,
-        { description = "open thunar", group = "launcher" }
+        awful.key({ keys.super }, "e", function() awful.spawn("nautilus") end,
+        { description = "open nautilus", group = "launcher" }
     ),
 
     awful.key({ keys.super }, "x",
